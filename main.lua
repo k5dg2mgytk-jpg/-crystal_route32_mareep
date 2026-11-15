@@ -1,9 +1,9 @@
-lua
 local Mod = {}
 
--- Configuração dos encontros clássicos do Mareep (Gold/Silver)
+-- Configuração dos encontros do Mareep (Manhã, Dia e Noite)
 local MAREEP_SLOT_MORNING = { species = "MAREEP", level = 6 }
 local MAREEP_SLOT_DAY     = { species = "MAREEP", level = 6 }
+local MAREEP_SLOT_NIGHT   = { species = "MAREEP", level = 6 }
 
 local function patchRoute32Encounters(data)
     if not data then return false end
@@ -15,14 +15,17 @@ local function patchRoute32Encounters(data)
     local route32 = grassTable["ROUTE_32"] or grassTable["Route32"]
     if not route32 then return false end
 
-    -- Substitui o 4º slot (índice 4 em Lua) da manhã e do dia pelo Mareep,
-    -- preservando as taxas de encontro (10% de chance, igual ao Gold/Silver original)
+    -- Adiciona o Mareep no 4º slot (índice 4 em Lua) nos três períodos (10% de chance)
     if route32.morning and route32.morning[4] then
         route32.morning[4] = { species = MAREEP_SLOT_MORNING.species, level = MAREEP_SLOT_MORNING.level }
     end
 
     if route32.day and route32.day[4] then
         route32.day[4] = { species = MAREEP_SLOT_DAY.species, level = MAREEP_SLOT_DAY.level }
+    end
+
+    if route32.night and route32.night[4] then
+        route32.night[4] = { species = MAREEP_SLOT_NIGHT.species, level = MAREEP_SLOT_NIGHT.level }
     end
 
     return true
@@ -40,7 +43,7 @@ function Mod.onLoad(ctx)
         ctx.events.on("gamedata:loaded", function(gamedata)
             local ok = patchRoute32Encounters(gamedata)
             if ok and ctx.log then
-                ctx.log.info("[crystal_route32_mareep] Mareep adicionado com sucesso à Rota 32!")
+                ctx.log.info("[crystal_route32_mareep] Mareep adicionado à Rota 32 (Manhã, Dia e Noite)!")
             end
         end)
     end
