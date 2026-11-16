@@ -1,0 +1,10 @@
+json
+{
+  "id": "crystal_route32_mareep",
+  "name": "Crystal: Mareep on Route 32",
+  "version": "1.0.0",
+  "author": "SeuUsuarioGitHub",
+  "description": "Adiciona Mareep selvagem na Rota 32 em Pokemon Crystal.",
+  "entry": "init.lua",
+  "games": ["crystal", "gold", "silver"]
+}
